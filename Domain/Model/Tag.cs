@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Model
 {
+
     public class Tag
     {
         public int TagId { get; set; }
