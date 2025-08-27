@@ -1,4 +1,7 @@
 
+using System.Data;
+using Microsoft.Data.SqlClient;
+
 namespace BlogApi
 {
     public static  class Program
@@ -14,6 +17,7 @@ namespace BlogApi
             builder.Services.AddOpenApi();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddTransient<IDbConnection>(sp => new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
             var app = builder.Build();
             
             // Configure the HTTP request pipeline.
