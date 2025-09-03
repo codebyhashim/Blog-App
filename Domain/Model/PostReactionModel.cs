@@ -11,7 +11,7 @@ namespace Domain.Model
         Like = 1,
         Dislike = 2
     }
-    public class PostReaction
+    public class PostReactionModel
     {
         public int BlogPostId { get; set; }   // FK -> BlogPosts, part of composite PK
         public string? UserId { get; set; }    // FK -> AspNetUsers, part of composite PK

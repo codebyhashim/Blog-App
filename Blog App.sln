@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36301.6 d17.14
+VisualStudioVersion = 17.14.36301.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -20,6 +20,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogApi", "BlogApi\BlogApi.csproj", "{3600E94F-85D5-4104-BDF0-1E74B5AE679C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\Persistence.csproj", "{493BEC27-0E80-435B-A76F-5392BA4BBC66}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Store procedure", "Store procedure", "{745C00B6-026E-428D-9EDF-98FA72DA2F70}"
+	ProjectSection(SolutionItems) = preProject
+		SqlQuery_1.sql = SqlQuery_1.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +65,7 @@ Global
 		{68160852-FC6B-4F0D-B521-856026FE40A3} = {F343881C-DC4D-4753-A267-D591059D311B}
 		{3600E94F-85D5-4104-BDF0-1E74B5AE679C} = {57CB00A0-1C77-4C70-ADEA-C489DEF79E74}
 		{493BEC27-0E80-435B-A76F-5392BA4BBC66} = {F343881C-DC4D-4753-A267-D591059D311B}
+		{745C00B6-026E-428D-9EDF-98FA72DA2F70} = {F343881C-DC4D-4753-A267-D591059D311B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {69CBFCB1-A75F-4E23-B216-954ADF7055B6}

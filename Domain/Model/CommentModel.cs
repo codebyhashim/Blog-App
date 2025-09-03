@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Model
 {
-    public class Comment
+    public class CommentModel
     {
         public int CommentId { get; set; }   // Primary Key
         public string? Content { get; set; }  // Comment text

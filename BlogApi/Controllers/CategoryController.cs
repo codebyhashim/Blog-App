@@ -4,7 +4,7 @@ namespace BlogApi.Controllers
 {
     [ApiController]
     [Route("Api/[Controller]")]
-    public class Category : Controller
+    public class CategoryController : Controller
     {
         [HttpGet]
         public IActionResult Index()

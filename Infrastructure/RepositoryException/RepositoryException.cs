@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Model
+namespace Infrastructure.RepositoryException
 {
-
-    public class Tag
+    public class RepositoryException : Exception
     {
-        public int TagId { get; set; }
-        public string? Name { get; set; }
     }
 }
