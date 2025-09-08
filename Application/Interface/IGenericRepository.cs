@@ -10,11 +10,11 @@ namespace Application.Repositories
     {
         Task<bool> AddAsync(string sp,object parameter);
 
-        Task<T> GetByIdAsync(int id);
+        Task<T> GetByIdAsync(int id,string sp);
 
-        Task<T> UpdateAsync(T entity);
+        Task<bool> UpdateAsync(T entity,string sp,int id);
 
-        Task<bool> DeleteAsync(int id);
+        Task<bool> DeleteAsync(int id,string sp);
 
         Task<IEnumerable<T>> GetAllAsync();
 

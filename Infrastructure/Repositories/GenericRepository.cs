@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Repositories;
 using Dapper;
+using Domain.Model;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Repositories
@@ -34,29 +36,78 @@ namespace Infrastructure.Repositories
             catch (Exception ex)
             {
                 logger.LogError(ex,"error occur while create post in GenericRepository");
-                throw;
+                throw new InvalidOperationException("Failed to execute stored procedure in GenericRepository creating post", ex);
+
             }
            
         }
 
        
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id,string sp)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                var param = new DynamicParameters();
+                param.Add("@id", id);
+                await dbConnection.ExecuteAsync(sp, param, commandType: CommandType.StoredProcedure);
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "error occur while delete post in GenericRepository");
+                throw new InvalidOperationException("Failed to execute stored procedure in GenericRepository deleting post", ex);
+
+            }
+            }
+
+  
+
+        public async Task<T> GetByIdAsync(int id,string sp)
+        {
+            try
+            {
+
+                var param = new DynamicParameters();
+                param.Add("@id", id);
+                var post=await dbConnection.QueryFirstOrDefaultAsync<T>(sp, param, commandType: CommandType.StoredProcedure);
+             
+                return post;
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "error occur while getting post in GenericRepository");
+                throw new InvalidOperationException("Failed to execute stored procedure in GenericRepository getting post", ex);
+
+            }
+        }
+
+        public async Task<bool> UpdateAsync(T entity,string sp, int id)
+        {
+            try
+            {
+
+                var param = new DynamicParameters(entity);
+                param.Add("@BlogPostId", id);
+
+                var a=await dbConnection.ExecuteAsync(sp, param, commandType: CommandType.StoredProcedure);
+
+                //return post;
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "error occur while getting post in GenericRepository");
+                throw new InvalidOperationException("Failed to execute stored procedure in GenericRepository getting post", ex);
+
+            }
         }
 
         public Task<IEnumerable<T>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> UpdateAsync(T entity)
         {
             throw new NotImplementedException();
         }

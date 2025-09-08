@@ -23,7 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Store procedure", "Store procedure", "{745C00B6-026E-428D-9EDF-98FA72DA2F70}"
 	ProjectSection(SolutionItems) = preProject
-		SqlQuery_1.sql = SqlQuery_1.sql
+		blog_create.sql = blog_create.sql
+		delete_blog.sql = delete_blog.sql
+		getPostById.sql = getPostById.sql
+		updateBlog.sql = updateBlog.sql
 	EndProjectSection
 EndProject
 Global

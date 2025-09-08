@@ -2,20 +2,21 @@
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Model;
-using Application;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Application.Dto;
 
 namespace BlogApi.Controllers
 {
     [ApiController]
     [Route("Api/[Controller]")]
-    public class BlogPostController : Controller
+    public class BlogPostController : ControllerBase
     {
-        private readonly ILogger<BlogModel> _logger;
+        private readonly ILogger<BlogPostController> _logger;
 
-        public IGenericRepository<BlogPostController> _repository { get; }
+        public IGenericRepository<BlogModel> _repository { get; }
       
 
-        public BlogPostController(IGenericRepository<BlogPostController> repository , ILogger<BlogModel> logger )
+        public BlogPostController(IGenericRepository<BlogModel> repository , ILogger<BlogPostController> logger )
         {
             _repository = repository;
             _logger = logger;
@@ -37,14 +38,14 @@ namespace BlogApi.Controllers
             catch (Exception ex)
             {
                 
-                _logger.LogError(ex, "controller: blogpost action : createPost message:doest create post");
+                _logger.LogError(ex, "controller: blogpost action : createPost message:error occured while creating post");
                 return StatusCode(500,new {message =ex.StackTrace});
             }
           
         }
 
         [HttpPost("Update")]
-        public async Task<IActionResult> UpdatePost([FromBody] BlogPostController model)
+        public async Task<IActionResult> UpdatePost([FromBody] UpdateBlogDto model)
         {
             try
             {
@@ -52,8 +53,19 @@ namespace BlogApi.Controllers
                 {
                     return BadRequest();
                 }
-                var post = await _repository.UpdateAsync(model);
-                return Ok($"message : post create succefully CreatedPost : {post}");
+                var blogModel = new BlogModel
+                {
+                    BlogPostId = model.BlogPostId,
+                    Title = model.Title,
+                    Content = model.Content,
+                    CategoryId = model.CategoryId,
+                    ImageUrl=model.ImageUrl,
+                    Status= Domain.Model.PostStatus.Draft,
+                    UserId=model.UserId
+                     
+    };
+                var post = await _repository.UpdateAsync(blogModel, "updateBlog", model.BlogPostId);
+                return Ok(new { message = "message : post create succefully CreatedPost : " });
 
             }
             catch (Exception ex)
@@ -65,7 +77,7 @@ namespace BlogApi.Controllers
         }
 
         [HttpPost("Delete")]
-        public async Task<IActionResult> DeletePost(int id)
+        public async Task<IActionResult> DeletePost([FromBody] int id)
         {
             try
             {
@@ -73,19 +85,19 @@ namespace BlogApi.Controllers
                 {
                     return BadRequest();
                 }
-                var post = await _repository.DeleteAsync(id);
-                return Ok($"message : post create succefully DeletedPost : {post}");
+                var post = await _repository.DeleteAsync(id, "delete_blog");
+                return Ok(new { message = "message : post deleted succefully " });
 
             }
             catch (Exception ex)
             {
 
-                _logger.LogError(ex, "ControllerName: blogpost ActionName : DeletePost message:doest create post");
+                _logger.LogError(ex, "ControllerName: blogpost ActionName : DeletePost message:doesnt delete post");
                 return StatusCode(500, "an error occured while deleting post");
             }
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetPostById(int id)
         {
             try
@@ -94,15 +106,20 @@ namespace BlogApi.Controllers
                 {
                     return BadRequest();
                 }
-                var post = await _repository.GetByIdAsync(id);
-                return Ok($"message : succefully , Post : {post}");
+                var postObj = await _repository.GetByIdAsync(id, "getPostById");
+                var post = postObj as BlogModel;
+                if (post == null)
+                {
+                    return NotFound(new { message = $"post not gound that {id}" });
+                }
+                return Ok(new { message = "message : get successfully post", post });
 
             }
             catch (Exception ex)
             {
 
                 _logger.LogError(ex, "ControllerName: blogpost ActionName : GetPostById  message:doest create post");
-                return StatusCode(500, "an error occured while deleting post");
+                return StatusCode(500, "an error occured while getting post");
             }
         }
     }
