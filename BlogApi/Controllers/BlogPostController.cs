@@ -1,5 +1,8 @@
 ﻿
+using Application.feature.Post.Delete;
 using Application.feature.Post.GetById;
+using Application.feature.Post.Create;
+
 using Application.model.Dto;
 using Application.model.ResponseWrapper;
 using Application.Repositories;
@@ -10,6 +13,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using static Domain.Constants.BlogConstants;
+
 
 namespace BlogApi.Controllers
 {
@@ -31,24 +35,26 @@ namespace BlogApi.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> CreatePost([FromBody] BlogCreateDto model)
+        public async Task<IActionResult> CreatePost([FromBody] BlogCreateDto request)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
-                await _repository.AddAsync("blog_create",model);
-                return Ok("row insert successfully");
+            var req = new CreatePostRequest { Model=request };
+            return HandleResponse(await _mediator.Send(req));
+            //try
+            //{
+            //    if (!ModelState.IsValid)
+            //    {
+            //        return BadRequest();
+            //    }
+            //    await _repository.AddAsync("blog_create",model);
+            //    return Ok("row insert successfully");
 
-            }
-            catch (Exception ex)
-            {
+            //}
+            //catch (Exception ex)
+            //{
                 
-                _logger.LogError(ex, "controller: blogpost action : createPost message:error occured while creating post");
-                return StatusCode(500,new {message =ex.StackTrace});
-            }
+            //    _logger.LogError(ex, "controller: blogpost action : createPost message:error occured while creating post");
+            //    return StatusCode(500,new {message =ex.StackTrace});
+            //}
           
         }
 
@@ -87,22 +93,8 @@ namespace BlogApi.Controllers
         [HttpPost("Delete")]
         public async Task<IActionResult> DeletePost([FromBody] int id)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
-                var post = await _repository.DeleteAsync(id, "delete_blog");
-                return Ok(new { message = "message : post deleted succefully " });
-
-            }
-            catch (Exception ex)
-            {
-
-                _logger.LogError(ex, "ControllerName: blogpost ActionName : DeletePost message:doesnt delete post");
-                return StatusCode(500, "an error occured while deleting post");
-            }
+            return HandleResponse(await _mediator.Send(new DeletePostRequest { Id=id}));
+       
         }
 
             [HttpGet("GetById/{id}")]

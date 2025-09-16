@@ -19,10 +19,4 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="feature\Post\Create\" />
-    <Folder Include="feature\Post\Delete\" />
-    <Folder Include="feature\Post\Update\" />
-  </ItemGroup>
-
 </Project>
