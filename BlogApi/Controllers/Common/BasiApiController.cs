@@ -11,9 +11,21 @@ namespace BlogApi.Controllers.Common
         [NonAction]
         public IActionResult HandleResponse(object response)
         {
-            if (response != null)
+            if (response==null)
             {
-                if (response is ErrorResult result)
+                return NotFound(new ErrorResult
+                {
+                    Error = new List<ErrorDto>
+                    {
+                            new ErrorDto
+                            {
+                                StatusCode=(int)HttpStatusCode.NotFound,
+                                Message="resourse not found"
+                            }
+                        }
+                });
+            }
+            else if (response!=null && response is ErrorResult result)
                 {
                     var responseCode = result.Error[0];
                     return responseCode.StatusCode switch
@@ -25,13 +37,16 @@ namespace BlogApi.Controllers.Common
                         CustomStatusCodes.NotFound => NotFound(response),
                         _ => BadRequest(response),
                     };
-                }
-                else
-                {
-                    return Ok(response);
-                }
+
+
+
             }
-            return Ok(response);
+            else
+            {
+                 return Ok(response);
+
+            }
+            
         }
     }
 }
