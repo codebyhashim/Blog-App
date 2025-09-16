@@ -29,6 +29,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Store procedure", "Store pr
 		updateBlog.sql = updateBlog.sql
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project roadmap", "project roadmap", "{41F386C9-C2B4-4466-8017-8A13D457F331}"
+	ProjectSection(SolutionItems) = preProject
+		Tables.sql = Tables.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +74,7 @@ Global
 		{3600E94F-85D5-4104-BDF0-1E74B5AE679C} = {57CB00A0-1C77-4C70-ADEA-C489DEF79E74}
 		{493BEC27-0E80-435B-A76F-5392BA4BBC66} = {F343881C-DC4D-4753-A267-D591059D311B}
 		{745C00B6-026E-428D-9EDF-98FA72DA2F70} = {F343881C-DC4D-4753-A267-D591059D311B}
+		{41F386C9-C2B4-4466-8017-8A13D457F331} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {69CBFCB1-A75F-4E23-B216-954ADF7055B6}

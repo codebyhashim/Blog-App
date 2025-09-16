@@ -110,26 +110,7 @@ namespace BlogApi.Controllers
             {
 
             return HandleResponse(await _mediator.Send(new GetPostByIdRequest { Id = id }));
-            //return Ok(await _mediator.Send(new GetPostByIdRequest { Id = id }));
-
-
-
-            //if (!ModelState.IsValid)
-            //{
-
-            //    return BadRequest(ErrorResult.Failure(CustomStatusKey.validationError, CustomStatusCodes.InternalServerError));
-
-            //}
-            //var postObj = await _repository.GetByIdAsync(id, "getPostById");
-
-            //if (postObj == null)
-            //{
-            //    _logger.LogError("record are not exist");
-
-            //    return NotFound(ErrorResult.Failure(CustomStatusKey.NotExist, CustomStatusCodes.InternalServerError));
-
-            //}
-            //return Ok(new { message = "message : get successfully post", postObj });
+           
         }
     }
 }
