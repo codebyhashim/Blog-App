@@ -1,25 +1,33 @@
-﻿using Application.Repositories;
+﻿
+using Application.feature.Post.GetById;
+using Application.model.Dto;
+using Application.model.ResponseWrapper;
+using Application.Repositories;
+using BlogApi.Controllers.Common;
 using Dapper;
-using Microsoft.AspNetCore.Mvc;
 using Domain.Model;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using Application.Dto;
+using static Domain.Constants.BlogConstants;
 
 namespace BlogApi.Controllers
 {
     [ApiController]
     [Route("Api/[Controller]")]
-    public class BlogPostController : ControllerBase
+    public class BlogPostController : BasiApiController
     {
         private readonly ILogger<BlogPostController> _logger;
+        private readonly IMediator _mediator;
 
         public IGenericRepository<BlogModel> _repository { get; }
       
 
-        public BlogPostController(IGenericRepository<BlogModel> repository , ILogger<BlogPostController> logger )
+        public BlogPostController(IGenericRepository<BlogModel> repository , ILogger<BlogPostController> logger , IMediator mediator )
         {
             _repository = repository;
             _logger = logger;
+            this._mediator = mediator;
         }
 
         [HttpPost("Create")]
@@ -97,30 +105,31 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpGet("GetById/{id}")]
-        public async Task<IActionResult> GetPostById(int id)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
-                var postObj = await _repository.GetByIdAsync(id, "getPostById");
-                var post = postObj as BlogModel;
-                if (post == null)
-                {
-                    return NotFound(new { message = $"post not gound that {id}" });
-                }
-                return Ok(new { message = "message : get successfully post", post });
-
-            }
-            catch (Exception ex)
+            [HttpGet("GetById/{id}")]
+            public async Task<IActionResult> GetPostById(int id)
             {
 
-                _logger.LogError(ex, "ControllerName: blogpost ActionName : GetPostById  message:doest create post");
-                return StatusCode(500, "an error occured while getting post");
-            }
+            return HandleResponse(await _mediator.Send(new GetPostByIdRequest { Id = id }));
+            //return Ok(await _mediator.Send(new GetPostByIdRequest { Id = id }));
+
+
+
+            //if (!ModelState.IsValid)
+            //{
+
+            //    return BadRequest(ErrorResult.Failure(CustomStatusKey.validationError, CustomStatusCodes.InternalServerError));
+
+            //}
+            //var postObj = await _repository.GetByIdAsync(id, "getPostById");
+
+            //if (postObj == null)
+            //{
+            //    _logger.LogError("record are not exist");
+
+            //    return NotFound(ErrorResult.Failure(CustomStatusKey.NotExist, CustomStatusCodes.InternalServerError));
+
+            //}
+            //return Ok(new { message = "message : get successfully post", postObj });
         }
     }
 }

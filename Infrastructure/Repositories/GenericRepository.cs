@@ -93,9 +93,8 @@ namespace Infrastructure.Repositories
                 var param = new DynamicParameters(entity);
                 param.Add("@BlogPostId", id);
 
-                var a=await dbConnection.ExecuteAsync(sp, param, commandType: CommandType.StoredProcedure);
+                await dbConnection.ExecuteAsync(sp, param, commandType: CommandType.StoredProcedure);
 
-                //return post;
                 return true;
 
             }

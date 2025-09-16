@@ -1,14 +1,16 @@
 
 using System.Data;
+using System.Reflection;
+using Application.Repositories;
+using BlogApi.Middlewares;
 using Domain.Model;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
-using Application.Repositories;
-using Infrastructure.Repositories;
-
+using Application.ExtensionMethod;
 namespace BlogApi
 {
     public static  class Program
@@ -25,13 +27,15 @@ namespace BlogApi
             builder.Services.AddSwaggerGen();
             builder.Services.AddTransient<IDbConnection>(sp => new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             builder.Services.AddDbContext<ApplicationDbContext>(option=>option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+            builder.Services.AddInfra();
             var app = builder.Build();
             
-          
+            app.UseMiddleware<ExceptionsMiddleware>();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -41,7 +45,6 @@ namespace BlogApi
                     options.RoutePrefix = string.Empty;
                 });
             }
-
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
