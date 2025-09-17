@@ -1,5 +1,5 @@
 ﻿create or alter procedure updateBlog
-@BlogPostId int,
+@Id int,
 @Title NVARCHAR(200) ,
 @Content varchar(max),
 @ImageUrl NVARCHAR(500),
@@ -10,7 +10,7 @@ As
 begin
 update BlogPosts
 set Title=@Title,Content=@Content,ImageUrl=@ImageUrl,UserId=@UserId,CategoryId=@CategoryId,Status=@Status,UpdatedAt=GETDATE(),IsDeleted=0
-where BlogPostId=@BlogPostId
+where BlogPostId=@Id
 end
 
 EXEC UpdateBlog

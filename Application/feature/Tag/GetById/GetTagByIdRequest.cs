@@ -9,6 +9,6 @@ namespace Application.feature.Tag.GetById
 {
     public class GetTagByIdRequest : IRequest<object>
     {
-        public int id { get; set; }
+        public int Id { get; set; }
     }
 }

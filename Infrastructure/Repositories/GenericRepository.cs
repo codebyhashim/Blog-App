@@ -50,7 +50,7 @@ namespace Infrastructure.Repositories
             {
 
                 var param = new DynamicParameters();
-                param.Add("@id", id);
+                param.Add("@TagId", id);
                 await dbConnection.ExecuteAsync(sp, param, commandType: CommandType.StoredProcedure);
                 return true;
 
@@ -91,7 +91,7 @@ namespace Infrastructure.Repositories
             {
 
                 var param = new DynamicParameters(entity);
-                param.Add("@BlogPostId", id);
+                param.Add("@Id", id);
 
                 await dbConnection.ExecuteAsync(sp, param, commandType: CommandType.StoredProcedure);
 

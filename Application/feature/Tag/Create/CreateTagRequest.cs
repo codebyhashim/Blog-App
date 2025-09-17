@@ -11,6 +11,6 @@ namespace Application.feature.Tag.Create
 {
     public class CreateTagRequest : IRequest<object>
     {
-        public CreateTagDto Tag { get; set; }
+        public CreateTagDto Model { get; set; }
     }
 }

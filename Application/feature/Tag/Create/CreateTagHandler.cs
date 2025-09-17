@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.model.ResponseWrapper;
 using Application.Repositories;
 using Domain.Model;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using static Domain.Constants.BlogConstants;
 
 namespace Application.feature.Tag.Create
 {
@@ -19,9 +21,14 @@ namespace Application.feature.Tag.Create
             _repository = repository;
         }
 
-        public Task<object> Handle(CreateTagRequest request, CancellationToken cancellationToken)
+        public async Task<object> Handle(CreateTagRequest request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var tag =await _repository.AddAsync("Tag_Create",request.Model);
+            if (!tag)
+            {
+                return ErrorResult.Failure(CustomStatusKey.InternalServerError, CustomStatusCodes.InternalServerError);
+            }
+            return new {message = "tag succesfully created",response = tag};
         }
     }
 }

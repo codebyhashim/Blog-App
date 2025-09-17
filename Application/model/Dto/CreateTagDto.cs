@@ -8,6 +8,6 @@ namespace Application.model.Dto
 {
     public class CreateTagDto
     {
-        public string Tag { get; set; }
+        public string Name { get; set; }
     }
 }

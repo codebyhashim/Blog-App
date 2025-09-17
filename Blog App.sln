@@ -26,6 +26,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Store procedure", "Store pr
 		blog_create.sql = blog_create.sql
 		delete_blog.sql = delete_blog.sql
 		getPostById.sql = getPostById.sql
+		Tag_Create.sql = Tag_Create.sql
+		Tag_Delete.sql = Tag_Delete.sql
+		Tag_GetById.sql = Tag_GetById.sql
+		Tag_Update.sql = Tag_Update.sql
 		updateBlog.sql = updateBlog.sql
 	EndProjectSection
 EndProject

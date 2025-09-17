@@ -9,6 +9,6 @@ namespace Application.feature.Tag.Delete
 {
     public class DeleteTagRequest : IRequest<object>
     {
-        public int Id { get; set; }
+        public int TagId { get; set; }
     }
 }
