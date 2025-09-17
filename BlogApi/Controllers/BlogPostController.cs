@@ -37,24 +37,9 @@ namespace BlogApi.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> CreatePost([FromBody] BlogCreateDto request)
         {
-            var req = new CreatePostRequest { Model=request };
-            return HandleResponse(await _mediator.Send(req));
-            //try
-            //{
-            //    if (!ModelState.IsValid)
-            //    {
-            //        return BadRequest();
-            //    }
-            //    await _repository.AddAsync("blog_create",model);
-            //    return Ok("row insert successfully");
-
-            //}
-            //catch (Exception ex)
-            //{
-                
-            //    _logger.LogError(ex, "controller: blogpost action : createPost message:error occured while creating post");
-            //    return StatusCode(500,new {message =ex.StackTrace});
-            //}
+            
+            return HandleResponse(await _mediator.Send(new CreatePostRequest { Model=request}));
+            
           
         }
 
