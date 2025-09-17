@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.model.Dto;
+using Domain.Model;
 using MediatR;
 
-namespace Application.feature.Post.Update
+namespace Application.feature.Tag.Create
 {
-    public class UpdatePostRequest : IRequest<object>
+    public class CreateTagRequest : IRequest<object>
     {
-        public UpdateBlogDto Model { get; set; }
+        public CreateTagDto Tag { get; set; }
     }
 }

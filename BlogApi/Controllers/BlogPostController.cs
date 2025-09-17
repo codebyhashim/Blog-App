@@ -13,6 +13,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using static Domain.Constants.BlogConstants;
+using Application.feature.Post.Update;
 
 
 namespace BlogApi.Controllers
@@ -46,33 +47,7 @@ namespace BlogApi.Controllers
         [HttpPost("Update")]
         public async Task<IActionResult> UpdatePost([FromBody] UpdateBlogDto model)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
-                var blogModel = new BlogModel
-                {
-                    BlogPostId = model.BlogPostId,
-                    Title = model.Title,
-                    Content = model.Content,
-                    CategoryId = model.CategoryId,
-                    ImageUrl=model.ImageUrl,
-                    Status= Domain.Model.PostStatus.Draft,
-                    UserId=model.UserId
-                     
-    };
-                var post = await _repository.UpdateAsync(blogModel, "updateBlog", model.BlogPostId);
-                return Ok(new { message = "message : post create succefully CreatedPost : " });
-
-            }
-            catch (Exception ex)
-            {
-
-                _logger.LogError(ex, "ControllerName: blogpost ActionName : UpdatePost message:doest create post");
-                return StatusCode(500, "an error occured while updating post");
-            }
+            return HandleResponse(await _mediator.Send(new UpdatePostRequest { Model=model}));
         }
 
         [HttpPost("Delete")]
